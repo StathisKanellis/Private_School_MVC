@@ -1,0 +1,18 @@
+﻿@model Assignment_MVC.Entities.Assignment
+
+@{
+    ViewBag.Title = "SimpleDetails";
+}
+
+<h1>@Model.Title @Model.Description</h1>
+
+<ul>
+    <li>@Html.DisplayNameFor(x => x.Title) : @Html.DisplayFor(x => x.Title)</li>
+    <li>@Html.DisplayNameFor(x => x.Description) : @Html.DisplayFor(x => x.Description)</li>
+    <li>@Html.DisplayNameFor(x => x.SubTime) : @Html.DisplayFor(x => x.SubTime.Day)/@Html.DisplayFor(x => x.SubTime.Month)/@Html.DisplayFor(x => x.SubTime.Year)</li>
+</ul>
+
+
+@Html.ActionLink("Back to Assignments", "AssignmentTable", "Assignment")
+
+

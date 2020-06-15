@@ -1,0 +1,22 @@
+﻿@model Assignment_MVC.Entities.Trainer
+
+@{
+    ViewBag.Title = "SimpleDetails";
+}
+
+<h1>@Model.FirstName @Model.LastName</h1>
+<img width="300" class="img-fluid" src="@Model.PhotoUrl" alt="No Image" />
+
+<ul>
+    <li>@Html.DisplayNameFor(x => x.FirstName) : @Html.DisplayFor(x => x.FirstName)</li>
+    <li>@Html.DisplayNameFor(x => x.LastName) : @Html.DisplayFor(x => x.LastName)</li>
+    <li>@Html.DisplayNameFor(x => x.Age) : @Html.DisplayFor(x => x.Age)</li>
+    <li>@Html.DisplayNameFor(x => x.Country) : @Html.DisplayFor(x => x.Country)</li>
+    <li>@Html.DisplayNameFor(x => x.Salary) : @Html.DisplayFor(x => x.Salary)€ </li>
+    <li>@Html.DisplayNameFor(x => x.Telephone) : @Html.DisplayFor(x => x.Telephone) </li>
+    <li>@Html.DisplayNameFor(x => x.Email) : @Html.DisplayFor(x => x.Email) </li>
+</ul>
+
+@Html.ActionLink("Back to Trainers", "TrainerTable", "Trainer")
+
+

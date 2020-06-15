@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - SchoolProject Stathis Kanellis</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class=" col-xl-10 m-auto">
+        <div class="container-fluid">
+            @* --Navigation Bar--*@
+            <div>
+                @RenderPage("Components/_NavigationBar.cshtml")
+                <br />
+            </div>
+
+            <div>
+                <div class="row">
+                    @* --Main Content-- *@
+                    <div class="col-12 m-0">
+                        @RenderBody()
+                    </div>
+                    @* --Secontary Content-- *@
+                    @*<div class="col-2">
+                        @RenderPage("Components/_SecondaryMenu.cshtml")
+                    </div>*@
+                </div>
+            </div>
+
+            @* --Footer-- *@
+            <div>
+                @RenderPage("Components/_Footer.cshtml")
+            </div>
+        </div>
+
+    </div>
+
+   
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

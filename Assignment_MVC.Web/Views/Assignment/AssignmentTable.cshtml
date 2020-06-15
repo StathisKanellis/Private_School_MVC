@@ -1,0 +1,76 @@
+﻿@model PagedList.IPagedList<Assignment_MVC.Entities.Assignment>
+@using PagedList;
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "AssignmentTable";
+}
+
+@{
+    SelectListItem a1 = new SelectListItem() { Text = "5", Value = "5" };
+    SelectListItem a2 = new SelectListItem() { Text = "10", Value = "10" };
+    SelectListItem a3 = new SelectListItem() { Text = "25", Value = "25" };
+    SelectListItem a4 = new SelectListItem() { Text = "50", Value = "50" };
+    SelectListItem a5 = new SelectListItem() { Text = "100", Value = "100" };
+    List<SelectListItem> items = new List<SelectListItem>() { a1, a2, a3, a4, a5 };
+}
+
+<h1>Assignment</h1>
+
+<p></p>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, x => @Url.Action("AssignmentTable", "Assignment", new { page = x, sortOrder = ViewBag.CurrentSortOrder, searchTitle = ViewBag.CurrentTitleName, searchDescription = ViewBag.CurrentDescriptionName, pSize = ViewBag.CurrentpSize }))
+
+@using (Html.BeginForm("AssignmentTable", "Assignment", FormMethod.Get, new { @class = "form-inline" }))
+{
+    @Html.TextBox("searchTitle", null, new { @class = "form-control", placeholder = "Search Title" })
+    @Html.TextBox("searchDescription", null, new { @class = "form-control", placeholder = "Search Description" })
+
+    string str = ViewBag.CurrentSortOrder;
+    @Html.TextBox("sortOrder", str, new { type = "hidden" })
+
+    <input type="submit" value="Search" class="btn btn-primary" />
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.ActionLink("Title", "AssignmentTable", "Assignment", new { sortOrder = ViewBag.TitleNameSortParam, searchTitle = ViewBag.CurrentTitleName, searchDescription = ViewBag.CurrentDescriptionName }, new { @class = ViewBag.TNView })</th>
+            <th>@Html.ActionLink("Description", "AssignmentTable", "Assignment", new { sortOrder = ViewBag.DescriptionNameSortParam, searchTitle = ViewBag.CurrentTitleName, searchDescription = ViewBag.CurrentDescriptionName }, new { @class = ViewBag.DNView })</th>
+            <th>@Html.ActionLink("SubTime", "AssignmentTable", "Assignment", new { sortOrder = ViewBag.SubTimeSortParam, searchTitle = ViewBag.CurrentTitleName, searchDescription = ViewBag.CurrentDescriptionName }, new { @class = ViewBag.STView })</th>
+            <th>Course</th>
+            <th>Students</th>
+            <th>Modify</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var assignment in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(x => assignment.Title)</td>
+                <td>@Html.DisplayFor(x => assignment.Description)</td>
+                <td>@assignment.SubTime.Day/@assignment.SubTime.Month/@assignment.SubTime.Year</td>
+                <td>
+                    <ul>
+                        @foreach (var course in assignment.Courses)
+                        {
+                            <li>@course.Title</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var student in assignment.MarkAssignments)
+                        {
+                            <li>@student.Student.LastName</li>
+                        }
+                    </ul>
+                </td>
+                <td>@Html.ActionLink("Details", "SimpleDetails", "Assignment", new { id = assignment.AssignmentId }, new { @class = "btn btn-primary" })</td>
+            </tr>
+        }
+    </tbody>
+</table>

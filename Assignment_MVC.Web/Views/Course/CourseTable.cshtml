@@ -1,0 +1,95 @@
+﻿@model PagedList.IPagedList<Assignment_MVC.Entities.Course>
+@using PagedList;
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "CourseTable";
+}
+
+@{
+    SelectListItem a1 = new SelectListItem() { Text = "5", Value = "5" };
+    SelectListItem a2 = new SelectListItem() { Text = "10", Value = "10" };
+    SelectListItem a3 = new SelectListItem() { Text = "25", Value = "25" };
+    SelectListItem a4 = new SelectListItem() { Text = "50", Value = "50" };
+    SelectListItem a5 = new SelectListItem() { Text = "100", Value = "100" };
+    List<SelectListItem> items = new List<SelectListItem>() { a1, a2, a3, a4, a5 };
+}
+
+<h2>Courses</h2>
+
+<p>@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-outline-primary" })</p>
+
+<p></p>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, x => @Url.Action("CourseTable", "Course", new { page = x, sortOrder = ViewBag.CurrentSortOrder, searchTitle = ViewBag.CurrentTitleName, searchStream = ViewBag.CurrentStreamName, pSize = ViewBag.CurrentpSize }))
+
+@using (Html.BeginForm("CourseTable", "Course", FormMethod.Get, new { @class = "form-inline" }))
+{
+    @Html.TextBox("searchTitle", null, new { @class = "form-control", placeholder = "Search Title" })
+    @Html.TextBox("searchStream", null, new { @class = "form-control", placeholder = "Search Stream" })
+
+    string str = ViewBag.CurrentSortOrder;
+    @Html.TextBox("sortOrder", str, new { type = "hidden" })
+
+    <input type="submit" value="Search" class="btn btn-primary" />
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.ActionLink("Title", "CourseTable", "Course", new { sortOrder = ViewBag.TitleNameSortParam, searchTitle = ViewBag.CurrentTitleName, searchStream = ViewBag.CurrentStreamName }, new { @class = ViewBag.TCView })</th>
+            <th>@Html.ActionLink("Stream", "CourseTable", "Course", new { sortOrder = ViewBag.StreamNameSortParam, searchTitle = ViewBag.CurrentTitleName, searchStream = ViewBag.CurrentStreamName }, new { @class = ViewBag.SCView })</th>
+            <th>@Html.ActionLink("Start Date", "CourseTable", "Course", new { sortOrder = ViewBag.StartDateSortParam, searchTitle = ViewBag.CurrentTitleName, searchStream = ViewBag.CurrentStreamName }, new { @class = ViewBag.SDCView })</th>
+            <th>@Html.ActionLink("End Date", "CourseTable", "Course", new { sortOrder = ViewBag.EndDateSortParam, searchTitle = ViewBag.CurrentTitleName, searchStream = ViewBag.CurrentStreamName }, new { @class = ViewBag.EDCView })</th>
+            <th>Trainers</th>
+            <th>Students</th>
+            <th>Assignments</th>
+            <th>Modify</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>@course.Title</td>
+                <td>@course.Stream</td>
+                <td>@course.StartDate.Day/@course.StartDate.Month/@course.StartDate.Year</td>
+                <td>@course.EndDate.Day/@course.EndDate.Month/@course.EndDate.Year</td>
+                <td>
+                    <ul>
+                        @foreach (var trainers in course.Trainers)
+                        {
+                            <li>@trainers.LastName</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var students in course.Students)
+                        {
+                            <li>@students.LastName</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var assignment in course.Assignments)
+                        {
+                            <li>@assignment.Title</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = course.CourseId }, new { @class = "btn btn-primary" })<br />
+                    @Html.ActionLink("Details", "SimpleDetails", "Course", new { id = course.CourseId }, new { @class = "btn btn-outline-secondary" })<br />
+                    @Html.ActionLink("Delete", "Delete", new { id = course.CourseId }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+

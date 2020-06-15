@@ -1,0 +1,59 @@
+﻿@model Assignment_MVC.Web.Models.StudentCourseTrainerAssignment
+
+
+@{
+    ViewBag.Title = "ShowAll";
+}
+
+<h2>Students Per Course</h2>
+
+@foreach (var course in Model.Courses)
+{
+    <ul><b>@course.Title</b></ul>
+    foreach (var students in course.Students)
+    {
+        <li>@students.FirstName @students.LastName</li>
+    }
+}
+<br />
+
+<h2>Trainers Per Course</h2>
+
+@foreach (var course in Model.Courses)
+{
+    <ul><b>@course.Title</b></ul>
+    foreach (var trainers in course.Trainers)
+    {
+        <li>@trainers.FirstName @trainers.LastName</li>
+    }
+}
+<br />
+
+<h2>Assignments Per Course</h2>
+
+@foreach (var course in Model.Courses)
+{
+    <ul><b>@course.Title</b></ul>
+    foreach (var assignments in course.Assignments)
+    {
+        <li>@assignments.Title @assignments.Description</li>
+    }
+}
+<br />
+
+<h2>Students Per Course Per Assignments</h2>
+
+@foreach (var course in Model.Courses)
+{
+    <ul><b>@course.Title</b></ul>
+    foreach (var students in course.Students)
+    {
+        <li>@students.FirstName @students.LastName</li>
+        foreach (var assignment in students.MarkAssignments)
+        {
+            <p>@assignment.Assignment.Title @assignment.Assignment.Description</p>
+            
+        }
+    }
+}
+<br />

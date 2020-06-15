@@ -1,0 +1,19 @@
+﻿@model Assignment_MVC.Entities.Course
+
+@{
+    ViewBag.Title = "SimpleDetails";
+}
+
+<h1>@Model.Title @Model.Stream</h1>
+
+<ul>
+    <li>@Html.DisplayNameFor(x => x.Title) : @Html.DisplayFor(x => x.Title)</li>
+    <li>@Html.DisplayNameFor(x => x.Stream) : @Html.DisplayFor(x => x.Stream)</li>
+    <li>@Html.DisplayNameFor(x => x.StartDate) : @Html.DisplayFor(x => x.StartDate.Day)/@Html.DisplayFor(x => x.StartDate.Month)/@Html.DisplayFor(x => x.StartDate.Year)</li>
+    <li>@Html.DisplayNameFor(x => x.EndDate) : @Html.DisplayFor(x => x.EndDate.Day)/@Html.DisplayFor(x => x.EndDate.Month)/@Html.DisplayFor(x => x.EndDate.Year)</li>
+    <li>@Html.DisplayNameFor(x => x.TutionFees.Cost) : @Html.DisplayFor(x => x.TutionFees.Cost)€ </li>
+</ul>
+
+
+@Html.ActionLink("Back to Courses", "CourseTable", "Course")
+

@@ -1,0 +1,37 @@
+﻿<nav class="navbar navbar-expand-md bg-dark navbar-dark bg-dark shadow">
+    <a class="navbar-brand" href="/Home/Index">HomePage</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav ml-auto">
+
+            @*Courses*@
+            <li class="nav-item">
+                <a class="nav-link" href="/Course/CourseTable">Courses </a>
+            </li>
+
+            @*Trainers*@
+            <li class="nav-item">
+                <a class="nav-link" href="/Trainer/TrainerTable">Trainers</a>
+            </li>
+
+            @*Students*@
+            <li class="nav-item">
+                <a class="nav-link" href="/Student/StudentTable">Students</a>
+            </li>
+            @*Assignments*@
+            <li class="nav-item">
+                <a class="nav-link" href="/Assignment/AssignmentTable">Assignments</a>
+            </li>
+        </ul>
+        @*Statistics*@
+        <a class="nav-link nav-link active" href="/Stats/Index">
+             Stats
+        </a>
+        @*Statistics*@
+        <a class="nav-link nav-link active" href="/Stats/ShowAll">
+            Show All
+        </a>
+    </div>
+</nav>

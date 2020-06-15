@@ -1,0 +1,87 @@
+﻿@model PagedList.IPagedList<Assignment_MVC.Entities.Trainer>
+@using PagedList;
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "TrainerTable";
+}
+
+@{
+    SelectListItem a1 = new SelectListItem() { Text = "5", Value = "5" };
+    SelectListItem a2 = new SelectListItem() { Text = "10", Value = "10" };
+    SelectListItem a3 = new SelectListItem() { Text = "25", Value = "25" };
+    SelectListItem a4 = new SelectListItem() { Text = "50", Value = "50" };
+    SelectListItem a5 = new SelectListItem() { Text = "100", Value = "100" };
+    List<SelectListItem> items = new List<SelectListItem>() { a1, a2, a3, a4, a5 };
+}
+
+
+<h2>Trainer</h2>
+
+<p>@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-outline-primary" })</p>
+
+<p></p>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+@Html.PagedListPager(Model, x => @Url.Action("TrainerTable", "Trainer", new { page = x, sortOrder = ViewBag.CurrentSortOrder, searchFirstName = ViewBag.CurrentFirstName, searchLastName = ViewBag.CurrentLastName, searchMinAge = ViewBag.CurrentMinAge, searchMaxAge = ViewBag.CurrentMaxAge, searchCountry = ViewBag.CurrentCountry, searchMinSalary = ViewBag.CurrentMinSalary, searchMaxSalary = ViewBag.CurrentMaxSalary, pSize = ViewBag.CurrentpSize }))
+
+@using (Html.BeginForm("TrainerTable", "Trainer", FormMethod.Get, new { @class = "form-inline" }))
+{
+    @Html.TextBox("searchFirstName", null, new { @class = "form-control", placeholder = "Search FirstName" })
+    @Html.TextBox("searchLastName", null, new { @class = "form-control", placeholder = "Search LastName" })
+    @Html.TextBox("searchMinAge", null, new { @class = "form-control", placeholder = "Search MinAge" })
+    @Html.TextBox("searchMaxAge", null, new { @class = "form-control", placeholder = "Search MaxAge" })
+    @Html.TextBox("searchMinSalary", null, new { @class = "form-control", placeholder = "Search MinSalary" })
+    @Html.TextBox("searchMaxSalary", null, new { @class = "form-control", placeholder = "Search MaxSalary" })
+
+    string str = ViewBag.CurrentSortOrder;
+    @Html.TextBox("sortOrder", str, new { type = "hidden" })
+
+    <input type="submit" value="Search" class="btn btn-primary" />
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>lmage</th>
+            <th>@Html.ActionLink("First Name", "TrainerTable", "Trainer", new { sortOrder = ViewBag.FirstNameSortParam, searchFirstName = ViewBag.CurrentFirstName, searchLastName = ViewBag.CurrentLastName, searchMinAge = ViewBag.CurrentMinAge, searchMaxAge = ViewBag.CurrentMaxAge, searchCountry = ViewBag.CurrentCountry, searchMinSalary = ViewBag.CurrentMinSalary, searchMaxSalary = ViewBag.CurrentMaxSalary }, new { @class = ViewBag.FNView })</th>
+            <th>@Html.ActionLink("Last Name", "TrainerTable", "Trainer", new { sortOrder = ViewBag.LastNameSortParam, searchFirstName = ViewBag.CurrentFirstName, searchLastName = ViewBag.CurrentLastName, searchMinAge = ViewBag.CurrentMinAge, searchMaxAge = ViewBag.CurrentMaxAge, searchCountry = ViewBag.CurrentCountry, searchMinSalary = ViewBag.CurrentMinSalary, searchMaxSalary = ViewBag.CurrentMaxSalary }, new { @class = ViewBag.LNView })</th>
+            <th>@Html.ActionLink("Age", "TrainerTable", "Trainer", new { sortOrder = ViewBag.AgeSortParam, searchFirstName = ViewBag.CurrentFirstName, searchLastName = ViewBag.CurrentLastName, searchMinAge = ViewBag.CurrentMinAge, searchMaxAge = ViewBag.CurrentMaxAge, searchCountry = ViewBag.CurrentCountry, searchMinSalary = ViewBag.CurrentMinSalary, searchMaxSalary = ViewBag.CurrentMaxSalary }, new { @class = ViewBag.AView })</th>
+            <th>@Html.ActionLink("Country", "TrainerTable", "Trainer", new { sortOrder = ViewBag.CountrySortParam, searchFirstName = ViewBag.CurrentFirstName, searchLastName = ViewBag.CurrentLastName, searchMinAge = ViewBag.CurrentMinAge, searchMaxAge = ViewBag.CurrentMaxAge, searchCountry = ViewBag.CurrentCountry, searchMinSalary = ViewBag.CurrentMinSalary, searchMaxSalary = ViewBag.CurrentMaxSalary }, new { @class = ViewBag.CView })</th>
+            <th>@Html.ActionLink("Salary", "TrainerTable", "Trainer", new { sortOrder = ViewBag.SalarySortParam, searchFirstName = ViewBag.CurrentFirstName, searchLastName = ViewBag.CurrentLastName, searchMinAge = ViewBag.CurrentMinAge, searchMaxAge = ViewBag.CurrentMaxAge, searchCountry = ViewBag.CurrentCountry, searchMinSalary = ViewBag.CurrentMinSalary, searchMaxSalary = ViewBag.CurrentMaxSalary }, new { @class = ViewBag.SView })</th>
+            <th>Telephone</th>
+            <th>Email</th>
+            <th>Courses</th>
+            <th>Modify</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var trainer in Model)
+        {
+            <tr>
+                <td><a><img width="100" class="img-fluid" src="@trainer.PhotoUrl" alt="No Image"</a></td>
+                <td>@Html.DisplayFor(x => trainer.FirstName)</td>
+                <td>@Html.DisplayFor(x => trainer.LastName)</td>
+                <td>@Html.DisplayFor(x => trainer.Age)</td>
+                <td>@Html.DisplayFor(x => trainer.Country)</td>
+                <td>@Html.DisplayFor(x => trainer.Salary)€</td>
+                <td>@Html.DisplayFor(x => trainer.Telephone)</td>
+                <td>@Html.DisplayFor(x => trainer.Email)</td>
+                <td>
+                    <ul>
+                        @foreach (var course in trainer.Courses)
+                        {
+                            <li>@course.Title</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = trainer.TrainerId }, new { @class = "btn btn-primary" })<br />
+                    @Html.ActionLink("Details", "SimpleDetails", "Trainer", new { id = trainer.TrainerId }, new { @class = "btn btn-outline-secondary" })<br />
+                    @Html.ActionLink("Delete", "Delete", new { id = trainer.TrainerId }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

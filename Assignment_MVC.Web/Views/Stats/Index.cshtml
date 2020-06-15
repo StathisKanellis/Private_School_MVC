@@ -1,0 +1,164 @@
+﻿@model Assignment_MVC.Web.Models.StatsViewModel
+@using Assignment_MVC.Entities;
+
+<h2 class="m-md-0">Statistics</h2>
+
+
+@*=================== Students Count ====================*@
+<hr />
+<b>Students Count :</b> @Model.StudentsCount
+
+@*=================== Trainers Count ====================*@
+<hr />
+<b>Trainers Count :</b> @Model.TrainersCount
+
+@*=================== Courses Count ====================*@
+<hr />
+<b>Courses Count :</b> @Model.CoursesCount
+
+@*=================== Assignments Count ====================*@
+<hr />
+<b>Assignments Count :</b> @Model.AssignmentsCount
+<hr />
+
+<br />
+
+<div class="container float-none">
+    <div class="row">
+        @*=================== Students Per Course Count ====================*@
+        <div class="col-4">
+            <b>Students Per Course</b>
+            <table class="table table-primary d-table-cell">
+                <tr>
+                    <th>Course</th>
+                    <th>Students</th>
+                </tr>
+                @foreach (var item in Model.StudentsPerCourse)
+                {
+                    <tr>
+                        <td>@item.Key.Title</td>
+                        <td>@item.Count()</td>
+                    </tr>
+                }
+            </table>
+        </div>
+        @*=================== Trainers Per Course Count ====================*@
+        <div class="col-4">
+            <b>Trainers to Course</b>
+            <table class="table table-primary d-table-cell">
+                <tr>
+                    <th>Course</th>
+                    <th>Trainers</th>
+                </tr>
+                @foreach (var item in Model.TrainersPerCourse)
+                {
+                    <tr>
+                        <td>@item.Key.Title</td>
+                        <td>@item.Count()</td>
+                    </tr>
+                }
+            </table>
+        </div>
+        @*=================== Assignments Per Course Count ====================*@
+        <div class="col-4">
+            <b>Assignments to Course</b>
+            <table class="table table-primary d-table-cell">
+                <tr>
+                    <th>Course</th>
+                    <th>Assignments</th>
+                </tr>
+                @foreach (var item in Model.AssignmentPerCourse)
+                {
+                    <tr>
+                        <td>@item.Key.Title</td>
+                        <td>@item.Count()</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<div class="container">
+    <div class="row">
+        @*=================== Average Students Mark Per Course ====================*@
+        <div class="col-4">
+            <b>Average Students Mark Per Course</b>
+            <table class="table table-primary d-table-cell">
+                <tr>
+                    <th>Course</th>
+                    <th>Students Mark</th>
+                </tr>
+                @foreach (var item in Model.StudentsPerCourse)
+                {
+                    <tr>
+                        <td>@item.Key.Title</td>
+                        <td>@string.Format("{0:n2}", item.Key.Students.Average(m => m.MarkAssignments.Average(t => t.TotalMark)))</td>
+                    </tr>
+                }
+            </table>
+        </div>
+        @*=================== Average Students Mark Per Assignment ====================*@
+        <div class="col-4">
+            <b>Average Students Mark Per Assignment</b>
+            <table class="table table-primary d-table-cell">
+                <tr>
+                    <th>Assignments</th>
+                    <th>Students Mark</th>
+                </tr>
+                @foreach (var item in Model.AssignmentPerStudent)
+                {
+                    <tr>
+                        <td>@item.Key.Title</td>
+                        <td>@string.Format("{0:n2}", item.Key.MarkAssignments.Average(t => t.TotalMark))</td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="row">
+            @*=================== Average Students Mark Per Assignment Per Course ====================*@
+            <div class="col-4">
+                <b>StudentsPerCoursePerAssignmentMark</b>
+                <table class="table table-primary table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Course</th>
+                            <th>Student/Assignment/Mark</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Courses)
+                         {
+                            <tr>
+                                <th>@item.Title</th>
+                                <td>
+                                    <ol>
+                                        @foreach (var student in item.Students)
+                                        {
+                                            <b>@student.LastName</b>
+                                            <ul>
+                                                @foreach (var assignment in student.MarkAssignments)
+                                                {
+                                                    <li>@assignment.Assignment.Title</li>
+                                                }
+                                                <ul><li>@string.Format("{0:n2}", student.MarkAssignments.Average(x => x.TotalMark))</li></ul>
+                                            </ul>
+                                        }
+                                    </ol>
+                                </td>
+                            </tr>
+                         }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    
+</div>
+<br />
+<br />
